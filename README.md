@@ -42,7 +42,6 @@ L'application présente une interface où les utilisateurs peuvent explorer les 
     
  4. **Commande personnalisée**
 
-    Récupérer les données de Pokémon
     Pour récupérer les données des Pokémon depuis l'API et les stocker dans la base de données, exécutez la commande suivante :
 
     ```bash
