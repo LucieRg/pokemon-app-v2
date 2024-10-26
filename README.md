@@ -64,6 +64,7 @@ http://localhost:4200
 
 - PHP
 - Symfony
+- API Platform
 - Docker
 - Angular
 - Css 
