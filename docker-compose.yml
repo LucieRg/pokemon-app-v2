@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  php:
+    build:
+      context: ./back
+    container_name: php
+    volumes:
+      - ./back:/var/www/html
+      - ./back/vendor:/var/www/html/vendor
+      - ./back/var/log:/var/www/html/var/log
+    ports:
+      - "8000:80"  # Port pour Symfony
+    environment:
+      APACHE_DOCUMENT_ROOT: /var/www/html/public
+    depends_on:
+      - db
+
+  angular:
+    build:
+      context: ./front  # Répertoire du Dockerfile Angular
+    container_name: angular
+    ports:
+      - "4200:4200"  # Mappage des ports
+    volumes:
+      - ./front:/app  # Monte le code source
+      - /app/node_modules  # Évite la duplication des node_modules
+    environment:
+      - NODE_ENV=development  # Indique que c'est en mode développement
+    depends_on:
+      - php
+
+  db:
+    image: postgres:latest
+    container_name: db
+    environment:
+      POSTGRES_DB: pokemon_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:

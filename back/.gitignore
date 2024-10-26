@@ -1,0 +1,32 @@
+# Dépendances et build
+/vendor/
+/node_modules/
+
+# Environnement et configuration sensible
+.env.local
+.env.*.local
+.phpunit.result.cache
+
+# Cache et logs Symfony
+/var/
+/var/log/
+/var/cache/
+
+# Uploads (ajustez selon votre projet)
+public/uploads/
+
+# Docker
+docker-compose.override.yml
+/.docker
+
+# Configurations d'IDE
+/.idea/
+/.vscode/
+
+# Autres fichiers temporaires et non nécessaires
+*.log
+*.cache
+*.phpunit.result.cache
+
+# Ignorer les migrations
+/migrations/*

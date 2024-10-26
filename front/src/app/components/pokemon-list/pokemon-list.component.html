@@ -1,0 +1,90 @@
+<main>
+<div class="pokemon-card">
+  @if (selectedPokemon) {
+    <h2>{{ selectedPokemon.name }}</h2>
+    <img
+      [src]="selectedPokemon.imageUrl ? selectedPokemon.imageUrl : selectedPokemon.frontDefault"
+      alt="{{ selectedPokemon.name }}"
+      class="pokemon-image"
+    >
+    <p>
+      <strong>Hauteur: </strong>
+      @if (selectedPokemon.height) {
+        <span>{{ selectedPokemon.height / 10 | number: '1.1-1' }} m</span>
+      } @else {
+        <span>Inconnu</span>
+      }
+    </p>
+    <p>
+      <strong>Poids: </strong>
+      @if (selectedPokemon.weight) {
+        <span>{{ selectedPokemon.weight / 10 | number: '1.1-1' }} kg</span>
+      } @else {
+        <span>Inconnu</span>
+      }
+    </p>
+    <p>
+      <strong>Types: </strong>
+      @if (selectedPokemon.types  && selectedPokemon.types.length > 0) {
+        <span>{{ selectedPokemon.types.join(', ') }}</span>
+      } @else {
+        <span>Inconnu</span>
+      }
+    </p>
+    <p>
+      <strong>Capacités:</strong>
+    </p>
+    <div class="abilities-box">
+      <ul>
+      @if (selectedPokemon.abilities && selectedPokemon.abilities.length > 0) {
+        @for (a of selectedPokemon.abilities; track a){
+          <li>{{a}}</li>
+        }
+      } @else {
+        <li>Inconnu</li>
+      }
+      </ul>
+    </div>
+    <div class="button-edit">
+      <form (ngSubmit)="deletePokemon(selectedPokemon.id)">
+        <button type="submit" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce Pokémon ?');">Supprimer</button>
+      </form>
+      <a [routerLink]="['/pokemon/edit', selectedPokemon?.id]">
+        <button>Modifier</button>
+      </a>
+    </div>
+
+  } @else {
+    <p>Veuillez sélectionner un Pokémon pour afficher ses informations.</p>
+  }
+</div>
+
+<h3>Liste de tous les Pokémon</h3>
+<div class="search-container">
+  <form (ngSubmit)="search()">
+    <input
+      type="text"
+      [(ngModel)]="searchTerm"
+      name="search"
+      placeholder="Nom du Pokémon"
+      required
+    >
+    <button type="submit">Rechercher</button>
+  </form>
+</div>
+
+<ul class="pokemon-list">
+  @for (pkm of pokemons; track pkm) {
+    @if (pkm.name.toLowerCase().includes(searchTerm.toLowerCase())) {
+      <a (click)="selectPokemon(pkm)">
+        <img
+          [src]="pkm.imageUrl ? pkm.imageUrl : pkm.frontDefault"
+          alt="{{ pkm.name }}"
+          class="pokemon-image"
+        >
+        <p>{{ pkm.name }}</p>
+      </a>
+    }
+  }
+</ul>
+</main>

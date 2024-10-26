@@ -1,0 +1,36 @@
+<div class="form-container">
+  <h1>{{ isEdit ? 'Modifier' : 'Ajouter' }} un Pokémon</h1>
+  <form [formGroup]="pokemonForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label for="name">Nom:</label>
+      <input id="name" formControlName="name">
+    </div>
+
+    <div>
+      <label for="height">Hauteur (cm):</label>
+      <input id="height" formControlName="height" type="number">
+    </div>
+
+    <div>
+      <label for="weight">Poids (kg):</label>
+      <input id="weight" formControlName="weight" type="number">
+    </div>
+
+    <div>
+      <label for="types">Types: (séparés par des virgules)</label>
+      <input id="types" formControlName="types">
+    </div>
+
+    <div>
+      <label for="abilities">Capacités: (séparées par des virgules)</label>
+      <input id="abilities" formControlName="abilities">
+    </div>
+
+    <div>
+      <label for="imageUrl">URL de l'image:</label>
+      <input id="imageUrl" formControlName="imageUrl">
+    </div>
+
+    <button type="submit">{{ isEdit ? 'Modifier' : 'Ajouter' }}</button>
+  </form>
+</div>
