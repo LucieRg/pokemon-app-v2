@@ -70,5 +70,5 @@ http://localhost:4200
 
 ## Contribuer
 
-Les contributions sont les bienvenues ! N'hésitez pas à soumettre des demandes de tirage (pull requests) ou à ouvrir des problèmes (issues) pour toute suggestion ou bug.
+Les contributions sont les bienvenues ! N'hésitez pas à soumettre des pull requests ou à ouvrir des issues pour toute suggestion ou bug.
 
