@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Pokemon;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-
+#[Route('/api/pokemon', name: 'pokemon_')]
 class PokemonController extends AbstractController
 {
     private EntityManagerInterface $entityManager;
@@ -21,7 +21,7 @@ class PokemonController extends AbstractController
         $this->validator = $validator;
     }
 
-    #[Route('/pokemon/add', name: 'pokemon_add', methods: ['POST'])]
+    #[Route('/add', name: 'pokemon_add', methods: ['POST'])]
     public function add(Request $request): Response
     {
         $pokemon = new Pokemon();
@@ -41,7 +41,7 @@ class PokemonController extends AbstractController
 
         return $this->json(['message' => 'Pokémon ajouté avec succès !'], Response::HTTP_CREATED);
     }
-    #[Route('/pokemon/{id}', name: 'pokemon_get', methods: ['GET'])]
+    #[Route('/{id}', name: 'pokemon_get', methods: ['GET'])]
     public function getPokemon(int $id): Response
     {
         $pokemon = $this->entityManager->getRepository(Pokemon::class)->find($id);
@@ -61,7 +61,7 @@ class PokemonController extends AbstractController
         ]);
     }
 
-    #[Route('/pokemon/edit/{id}', name: 'pokemon_edit', methods: ['PUT'])]
+    #[Route('/edit/{id}', name: 'pokemon_edit', methods: ['PUT'])]
     public function edit(Request $request, int $id): Response
     {
         $pokemon = $this->entityManager->getRepository(Pokemon::class)->find($id);
@@ -85,7 +85,7 @@ class PokemonController extends AbstractController
         return $this->json(['message' => 'Pokémon mis à jour avec succès !']);
     }
 
-    #[Route('/pokemon/delete/{id}', name: 'pokemon_delete', methods: ['DELETE'])]
+    #[Route('/delete/{id}', name: 'pokemon_delete', methods: ['DELETE'])]
     public function delete(int $id): Response
     {
         $pokemon = $this->entityManager->getRepository(Pokemon::class)->find($id);

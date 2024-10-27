@@ -1,17 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PokemonService } from '../../services/pokemon.service';
-import {type} from "node:os";
-
 
 @Component({
   selector: 'app-pokemon-form',
   templateUrl: './pokemon-form.component.html',
   standalone: true,
-  imports: [
-    ReactiveFormsModule
-  ],
+  imports: [ReactiveFormsModule],
   styleUrls: ['./pokemon-form.component.css']
 })
 export class PokemonFormComponent implements OnInit {
@@ -29,9 +25,8 @@ export class PokemonFormComponent implements OnInit {
       name: ['', Validators.required],
       height: ['', [Validators.required, Validators.min(1)]],
       weight: ['', [Validators.required, Validators.min(1)]],
-      types: [''],
-      abilities: [''],
-      imageUrl: ['']
+      types: ['', Validators.required],
+      abilities: ['', Validators.required],
     });
     console.log('Constructeur exécuté');
   }
@@ -43,6 +38,7 @@ export class PokemonFormComponent implements OnInit {
       this.loadPokemon();
     }
   }
+
   loadPokemon(): void {
     this.pokemonService.getPokemonById(this.pokemonId!).subscribe(data => {
       this.pokemonForm.patchValue({
@@ -58,19 +54,19 @@ export class PokemonFormComponent implements OnInit {
     });
   }
 
-
   onSubmit(): void {
-
     if (this.pokemonForm.invalid) {
-      return;
+      return; // Early exit if the form is invalid
     }
 
     const pokemonData = { ...this.pokemonForm.value };
     console.log('Données envoyées au service:', { ...pokemonData, id: this.pokemonId! });
 
+    // Split the comma-separated values into arrays
     pokemonData.types = pokemonData.types.split(',').map((type: string) => type.trim());
     pokemonData.abilities = pokemonData.abilities.split(',').map((ability: string) => ability.trim());
 
+    // Handle the API request based on whether we're editing or creating a Pokémon
     if (this.isEdit) {
       this.pokemonService.editPokemon({ ...pokemonData, id: this.pokemonId! })
         .subscribe(response => {
@@ -80,10 +76,10 @@ export class PokemonFormComponent implements OnInit {
         }, error => {
           console.error('Erreur lors de la modification du Pokémon:', error);
         });
-    }
-    else {
+    } else {
       this.pokemonService.addPokemon(pokemonData)
         .subscribe(() => {
+          console.log('Pokémon ajouté avec succès');
           this.router.navigate(['/']);
         }, error => {
           console.error('Erreur lors de l\'ajout du Pokémon:', error);
@@ -91,5 +87,4 @@ export class PokemonFormComponent implements OnInit {
     }
     console.log('Le formulaire a été soumis');
   }
-
 }

@@ -4,20 +4,22 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Pokemon } from "../utils/types/pokemonType";
 
+
 @Injectable({
   providedIn: 'root'
 })
 export class PokemonService {
-  private baseUrl = 'http://localhost:8000';
+  private baseUrl = 'http://localhost:8000/api';
 
   constructor(private http: HttpClient) {}
 
 
   getAllPokemons(): Observable<Pokemon[]> {
-    return this.http.get<Pokemon[]>(`${this.baseUrl}`).pipe(
+    return this.http.get<Pokemon[]>(`${this.baseUrl}/pokemon`).pipe(
       catchError(this.handleError)
     );
   }
+
 
   getPokemonById(id: number): Observable<Pokemon> {
     return this.http.get<Pokemon>(`${this.baseUrl}/pokemon/${id}`).pipe(

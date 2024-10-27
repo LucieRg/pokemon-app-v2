@@ -28,10 +28,16 @@ export class PokemonListComponent implements OnInit {
   }
 
   loadPokemons(): void {
-    this.pokemonService.getAllPokemons().subscribe({
-      next: (data) => this.pokemons = data,
-      error: (err) => console.error('Erreur lors du chargement des Pokémon', err)
-    });
+    this.pokemonService.getAllPokemons().subscribe(
+      (data: Pokemon[]) => {
+        console.log(Array.isArray(data), data);
+        this.pokemons = Array.isArray(data) ? data : [];
+      },
+      (error) => {
+        console.error('Error fetching pokemons', error);
+        this.pokemons = [];
+      }
+    );
   }
 
 
