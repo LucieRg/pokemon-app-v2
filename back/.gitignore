@@ -28,5 +28,5 @@ docker-compose.override.yml
 *.cache
 *.phpunit.result.cache
 
-# Ignorer les migrations
-/migrations/*
+migrations/*.php
+!migrations/.gitignore
