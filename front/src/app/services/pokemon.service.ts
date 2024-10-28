@@ -15,7 +15,7 @@ export class PokemonService {
 
   getAllPokemons(): Observable<Pokemon[]> {
     return this.http.get<{ member: Pokemon[] }>(`${this.baseUrl}/pokemon`).pipe(
-      map(response => response.member), // extraction des données
+      map(response => response.member),
       catchError(this.handleError)
     );
   }

@@ -57,17 +57,17 @@ export class PokemonFormComponent implements OnInit {
 
   onSubmit(): void {
     if (this.pokemonForm.invalid) {
-      return; // Early exit if the form is invalid
+      return;
     }
 
     const pokemonData = { ...this.pokemonForm.value };
     console.log('Données envoyées au service:', { ...pokemonData, id: this.pokemonId! });
 
-    // Split the comma-separated values into arrays
+
     pokemonData.types = pokemonData.types.split(',').map((type: string) => type.trim());
     pokemonData.abilities = pokemonData.abilities.split(',').map((ability: string) => ability.trim());
 
-    // Handle the API request based on whether we're editing or creating a Pokémon
+
     if (this.isEdit) {
       this.pokemonService.editPokemon({ ...pokemonData, id: this.pokemonId! })
         .subscribe(response => {
