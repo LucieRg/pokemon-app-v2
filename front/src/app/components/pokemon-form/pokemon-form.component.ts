@@ -27,6 +27,7 @@ export class PokemonFormComponent implements OnInit {
       weight: ['', [Validators.required, Validators.min(1)]],
       types: ['', Validators.required],
       abilities: ['', Validators.required],
+      imageUrl: [''],
     });
     console.log('Constructeur exécuté');
   }

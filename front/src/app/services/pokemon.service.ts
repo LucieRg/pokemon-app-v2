@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { Pokemon } from "../utils/types/pokemonType";
 
 
@@ -13,13 +13,12 @@ export class PokemonService {
 
   constructor(private http: HttpClient) {}
 
-
   getAllPokemons(): Observable<Pokemon[]> {
-    return this.http.get<Pokemon[]>(`${this.baseUrl}/pokemon`).pipe(
+    return this.http.get<{ member: Pokemon[] }>(`${this.baseUrl}/pokemon`).pipe(
+      map(response => response.member), // extraction des données
       catchError(this.handleError)
     );
   }
-
 
   getPokemonById(id: number): Observable<Pokemon> {
     return this.http.get<Pokemon>(`${this.baseUrl}/pokemon/${id}`).pipe(
@@ -32,7 +31,6 @@ export class PokemonService {
       catchError(this.handleError)
     );
   }
-
 
   editPokemon(pokemon: Pokemon): Observable<Pokemon> {
     if (!pokemon.id) {
@@ -49,13 +47,11 @@ export class PokemonService {
     );
   }
 
-
   searchPokemons(searchTerm: string): Observable<Pokemon[]> {
     return this.http.post<Pokemon[]>(`${this.baseUrl}/pokemon/search`, { pokemonNameOrId: searchTerm }).pipe(
       catchError(this.handleError)
     );
   }
-
 
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'Une erreur s\'est produite';

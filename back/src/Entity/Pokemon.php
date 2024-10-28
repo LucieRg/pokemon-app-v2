@@ -3,9 +3,13 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
+
 
 #[ORM\Entity]
-#[ApiResource]    
+#[ApiResource(
+    paginationItemsPerPage: 300
+)]
 class Pokemon
 {
     #[ORM\Id]
